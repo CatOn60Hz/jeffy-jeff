@@ -341,6 +341,19 @@
         <span style="font-size:0.78rem;color:var(--text-muted);" id="empCountLabel"></span>
         <button class="adm-btn-add" id="btnAddEmployee" style="margin-left:auto;">+ Add Employee</button>
       </div>
+
+      <!-- Admin access management — promote / revoke admin role on auth users -->
+      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+        <div style="flex:1;min-width:220px;">
+          <div style="font-weight:600;font-size:0.95rem;margin-bottom:2px;">Admin access</div>
+          <div style="font-size:0.78rem;color:var(--text-muted);">Promote or revoke admin on an existing signed-up user. They must sign out + back in for the change to take effect.</div>
+        </div>
+        <input type="email" id="adminEmailInput" placeholder="user@example.com"
+               style="padding:8px 12px;border:1px solid var(--border);border-radius:6px;min-width:240px;font-size:0.85rem;background:var(--bg-deep);color:var(--text);">
+        <button class="adm-btn-add" id="btnGrantAdmin">Promote</button>
+        <button class="adm-btn-export" id="btnRevokeAdmin">Revoke</button>
+      </div>
+
       <div class="adm-docs-filters" id="empFilters" style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;">
         <button class="adm-filter-tab active" data-emp-filter="all">All</button>
         <button class="adm-filter-tab" data-emp-filter="pending">Pending</button>

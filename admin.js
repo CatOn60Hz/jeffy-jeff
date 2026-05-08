@@ -1345,6 +1345,36 @@
   document.getElementById('aeCancel').addEventListener('click', closeAddEmployee);
   aeModal.addEventListener('click', function(e) { if (e.target === aeModal) closeAddEmployee(); });
 
+  // ── Admin access (promote / revoke) ──
+  // Calls public.fn_grant_admin / fn_revoke_admin (admin-only RPCs).
+  // The target user must already exist in auth.users (signed up at
+  // least once). They must sign out + back in for their JWT to refresh.
+  function adminAccessAction(rpcName, verb, pastTense) {
+    var input = document.getElementById('adminEmailInput');
+    var email = (input.value || '').trim().toLowerCase();
+    if (!email || email.indexOf('@') === -1) {
+      showToast('Enter a valid email first.', 'error');
+      input.focus();
+      return;
+    }
+    if (!confirm(verb + ' ' + email + '?')) return;
+    sb.rpc(rpcName, { p_email: email }).then(function(res) {
+      if (res.error) {
+        showToast(verb + ' failed: ' + res.error.message, 'error');
+        return;
+      }
+      showToast(pastTense + ' ' + email + '. They must sign out + back in.', 'success');
+      input.value = '';
+    });
+  }
+
+  document.getElementById('btnGrantAdmin').addEventListener('click', function() {
+    adminAccessAction('fn_grant_admin', 'Promote', 'Promoted');
+  });
+  document.getElementById('btnRevokeAdmin').addEventListener('click', function() {
+    adminAccessAction('fn_revoke_admin', 'Revoke admin from', 'Revoked admin from');
+  });
+
   document.getElementById('aeSubmit').addEventListener('click', function() {
     var name = document.getElementById('aeNameInput').value.trim();
     var email = document.getElementById('aeEmailInput').value.trim();
